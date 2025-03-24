@@ -1,11 +1,50 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Loader, RefreshCw } from "lucide-react";
+import { Send, Loader, RefreshCw, Sparkles } from "lucide-react";
 import { sendMessageToOllama } from "./../services/ollama";
 
 interface ChatMessage {
   role: "user" | "assistant" | "system";
   content: string;
 }
+
+// Function to add subtle formatting to AI responses
+const formatAIResponse = (text: string) => {
+  // Split into paragraphs
+  const paragraphs = text.split('\n\n');
+  
+  return paragraphs.map((paragraph, index) => {
+    // Detect and highlight key emotional words
+    const emotionalWords = [
+      'feel', 'feeling', 'hope', 'support', 'understand', 
+      'comfort', 'care', 'love', 'appreciate', 'grateful'
+    ];
+
+    const highlightedText = paragraph.split(' ').map((word, wordIndex) => {
+      const lowercaseWord = word.toLowerCase().replace(/[.,!?]/g, '');
+      if (emotionalWords.includes(lowercaseWord)) {
+        return (
+          <span 
+            key={wordIndex} 
+            className="font-semibold text-support-600 transition-colors duration-300 hover:text-support-700"
+          >
+            {word}{' '}
+          </span>
+        );
+      }
+      return <span key={wordIndex}>{word}{' '}</span>;
+    });
+
+    return (
+      <p 
+        key={index} 
+        className="mb-2 text-sm leading-relaxed animate-fade-in"
+        style={{ animationDelay: `${index * 0.1}s` }}
+      >
+        {highlightedText}
+      </p>
+    );
+  });
+};
 
 const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -14,9 +53,7 @@ const ChatInterface: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Add a system message at the beginning for better context
   useEffect(() => {
-    // Only add if we don't have any messages yet
     if (messages.length === 0) {
       const systemMessage: ChatMessage = {
         role: "system",
@@ -41,9 +78,6 @@ const ChatInterface: React.FC = () => {
     setError(null);
 
     try {
-      // Filter system messages before display but include them in the API call
-      const visibleMessages = messages.filter(msg => msg.role !== "system");
-      
       const response = await sendMessageToOllama(messages.concat(userMessage));
       
       if (response && response.message) {
@@ -63,7 +97,6 @@ const ChatInterface: React.FC = () => {
     }
   };
 
-  // Filter out system messages for display
   const visibleMessages = messages.filter(msg => msg.role !== "system");
 
   const scrollToBottom = () => {
@@ -81,34 +114,34 @@ const ChatInterface: React.FC = () => {
     >
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12 reveal">
-          <h2 className="text-3xl md:text-4xl font-light mb-4">
+          <h2 className="text-3xl md:text-4xl font-light mb-4 animate-slide-in-top">
             Talk with our AI Companion
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto animate-slide-in-bottom">
             Share your thoughts, celebrate victories, or find support during
             difficult times. Our AI is here to listen without judgment.
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-glass-lg border border-support-100 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-glass-lg border border-support-100 overflow-hidden animate-scale-up">
           <div className="flex items-center justify-between p-4 border-b border-border">
             <div className="flex items-center">
-              <div className="w-3 h-3 rounded-full bg-support-500 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-support-500 mr-2 animate-pulse"></div>
               <span className="font-medium">EmotionalSupport AI</span>
             </div>
             <button
               onClick={() => setMessages([])}
-              className="text-muted-foreground hover:text-support-600 p-2 rounded-full transition-colors"
+              className="text-muted-foreground hover:text-support-600 p-2 rounded-full transition-colors group"
               aria-label="Start new conversation"
             >
-              <RefreshCw className="h-4 w-4" />
+              <RefreshCw className="h-4 w-4 group-hover:rotate-180 transition-transform" />
             </button>
           </div>
 
           <div className="h-[400px] overflow-y-auto p-4 bg-support-50/30">
             {visibleMessages.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center text-muted-foreground p-6">
-                <div className="mb-4 p-3 rounded-full bg-support-100">
+              <div className="h-full flex flex-col items-center justify-center text-center text-muted-foreground p-6 animate-fade-in">
+                <div className="mb-4 p-3 rounded-full bg-support-100 animate-bounce">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 text-support-600"
@@ -137,17 +170,35 @@ const ChatInterface: React.FC = () => {
                     key={index}
                     className={`flex ${
                       msg.role === "user" ? "justify-end" : "justify-start"
-                    }`}
+                    } animate-slide-in`}
+                    style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-3 animate-scale
+                      className={`max-w-[80%] rounded-2xl px-4 py-3 animate-scale 
                         ${
                           msg.role === "user"
                             ? "bg-support-600 text-white ml-4"
                             : "bg-white border border-support-100 shadow-sm mr-4"
                         }`}
                     >
-                      <div className="text-sm mb-1">{msg.content}</div>
+                      <div 
+                        className={`text-sm mb-1 ${
+                          msg.role === "assistant" 
+                            ? "text-support-800" 
+                            : "text-white"
+                        }`}
+                      >
+                        {msg.role === "assistant" ? (
+                          <div className="flex items-center mb-2">
+                            <Sparkles className="h-4 w-4 mr-2 text-support-500" />
+                            <span className="font-semibold">AI Support</span>
+                          </div>
+                        ) : null}
+                        {msg.role === "assistant" 
+                          ? formatAIResponse(msg.content)
+                          : msg.content
+                        }
+                      </div>
                       <div
                         className={`text-xs text-right 
                           ${
@@ -167,7 +218,7 @@ const ChatInterface: React.FC = () => {
             )}
 
             {isLoading && (
-              <div className="flex justify-start">
+              <div className="flex justify-start animate-fade-in">
                 <div className="bg-white rounded-2xl px-4 py-3 border border-support-100 shadow-sm animate-pulse-subtle max-w-[80%]">
                   <div className="flex items-center space-x-2">
                     <Loader className="h-4 w-4 animate-spin text-support-500" />
@@ -178,7 +229,7 @@ const ChatInterface: React.FC = () => {
             )}
 
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg p-3 my-2 text-sm">
+              <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg p-3 my-2 text-sm animate-shake">
                 {error}
               </div>
             )}
@@ -207,10 +258,10 @@ const ChatInterface: React.FC = () => {
                   !input.trim() || isLoading
                     ? "text-muted-foreground"
                     : "text-support-600 hover:text-support-500"
-                } transition-colors focus:outline-none`}
+                } transition-colors focus:outline-none group`}
                 aria-label="Send message"
               >
-                <Send className="h-5 w-5" />
+                <Send className="h-5 w-5 group-hover:scale-110 transition-transform" />
               </button>
             </div>
             <p className="text-xs text-muted-foreground mt-2 text-center">

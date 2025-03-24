@@ -14,14 +14,12 @@ interface APIConfig {
   model: string;
 }
 
-// Configuration for the Ollama API running locally
 const apiConfig: APIConfig = {
-  baseUrl: 'http://127.0.0.1:11500/api/chat', // Local Ollama API
-  model: 'llama3.2', // Ensure this matches the model installed in Ollama
+  baseUrl: 'http://127.0.0.1:11500/api/chat', 
+  model: 'llama3.2', 
 };
 
 /**
- * Sends a message to the locally running Ollama AI model and returns the response.
  */
 export async function sendMessage(messages: ChatMessage[]): Promise<ChatResponse> {
   try {
