@@ -27,7 +27,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   // Convert context messages to API format
   const formatMessagesForAPI = (userContent: string) => {
     const systemMessage = {
-      role: 'system',
+      role: 'system' as const,
       content: systemPrompts.supportive
     };
 
@@ -41,7 +41,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     return [
       systemMessage,
       ...contextMessages,
-      { role: 'user', content: userContent }
+      { role: 'user' as const, content: userContent }
     ];
   };
 
