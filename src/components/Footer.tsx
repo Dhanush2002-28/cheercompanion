@@ -78,9 +78,11 @@ const Footer: React.FC = () => {
               <span className="text-xs text-muted-foreground">Connected experiences</span>
             </div>
           </div>
-
           <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} EmotionalSupport. All rights reserved.
+          </p>
+          <p>
+            Made with ❤️ by Team Frogfoot
           </p>
         </div>
       </div>
