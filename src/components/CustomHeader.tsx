@@ -32,24 +32,24 @@ const CustomHeader: React.FC = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Heart className="h-6 w-6 text-support-500" />
-          <span className="font-medium text-lg tracking-tight font-playfair">EmotionalSupport</span>
+          <span className="font-medium text-lg tracking-tight font-playfair text-foreground dark:text-gray-100">EmotionalSupport</span>
         </div>
         
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="#chat" className="text-foreground/80 hover:text-support-600 transition-colors">
+          <a href="#chat" className="text-foreground/80 dark:text-gray-300 hover:text-support-600 dark:hover:text-support-400 transition-colors">
             Talk to AI 💬
           </a>
-          <a href="#stories" className="text-foreground/80 hover:text-support-600 transition-colors">
+          <a href="#stories" className="text-foreground/80 dark:text-gray-300 hover:text-support-600 dark:hover:text-support-400 transition-colors">
             Community Stories 📚
           </a>
-          <a href="#about" className="text-foreground/80 hover:text-support-600 transition-colors">
+          <a href="#about" className="text-foreground/80 dark:text-gray-300 hover:text-support-600 dark:hover:text-support-400 transition-colors">
             About ℹ️
           </a>
           <ThemeToggle />
         </nav>
         
         <div className="md:hidden">
-          <button aria-label="Menu" className="text-foreground p-2">
+          <button aria-label="Menu" className="text-foreground dark:text-gray-100 p-2">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>

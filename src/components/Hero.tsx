@@ -27,19 +27,19 @@ const Hero: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 pt-20 pb-16" ref={containerRef}>
-      <div className="absolute top-0 left-0 right-0 h-screen bg-gradient-to-b from-support-50/40 to-background -z-10"></div>
+      <div className="absolute top-0 left-0 right-0 h-screen bg-gradient-to-b from-support-50/40 to-background dark:from-support-900/10 dark:to-background -z-10"></div>
       
       <div className="max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center px-4 py-2 rounded-full bg-support-100 text-support-600 mb-8 reveal">
+        <div className="inline-flex items-center px-4 py-2 rounded-full bg-support-100 text-support-600 dark:bg-support-900/30 dark:text-support-300 mb-8 reveal">
           <Shield className="h-4 w-4 mr-2" />
           <span className="text-sm font-medium">Anonymous & Private</span>
         </div>
         
-        <h1 className="text-4xl md:text-6xl font-light tracking-tight mb-6 reveal">
-          Find <span className="text-support-600 font-normal">emotional support</span> when you need it most
+        <h1 className="text-4xl md:text-6xl font-light tracking-tight mb-6 reveal font-playfair dark:text-gray-100">
+          Find <span className="text-support-600 dark:text-support-400 font-normal">emotional support</span> when you need it most
         </h1>
         
-        <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto reveal">
+        <p className="text-lg md:text-xl text-muted-foreground dark:text-gray-300 mb-10 max-w-2xl mx-auto reveal">
           A safe space to share your feelings, connect with others who understand, and receive compassionate AI support without judgment.
         </p>
         
@@ -54,7 +54,7 @@ const Hero: React.FC = () => {
           
           <a 
             href="#stories" 
-            className="px-6 py-3 rounded-lg border border-support-200 hover:bg-support-50 transition-colors flex items-center"
+            className="px-6 py-3 rounded-lg border border-support-200 dark:border-support-700 hover:bg-support-50 dark:hover:bg-support-900/20 transition-colors flex items-center text-foreground dark:text-gray-200"
           >
             <Heart className="h-5 w-5 mr-2" />
             <span>Read Community Stories</span>
@@ -65,28 +65,28 @@ const Hero: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto w-full">
         {[
           {
-            icon: <MessageCircle className="h-10 w-10 text-support-500 mb-4" />,
+            icon: <MessageCircle className="h-10 w-10 text-support-500 dark:text-support-400 mb-4" />,
             title: "AI Emotional Support",
             description: "Our AI companion provides compassionate responses tailored to your emotional needs."
           },
           {
-            icon: <Heart className="h-10 w-10 text-support-500 mb-4" />,
+            icon: <Heart className="h-10 w-10 text-support-500 dark:text-support-400 mb-4" />,
             title: "Shared Experiences",
             description: "Connect with anonymous stories from others who've faced similar challenges."
           },
           {
-            icon: <Shield className="h-10 w-10 text-support-500 mb-4" />,
+            icon: <Shield className="h-10 w-10 text-support-500 dark:text-support-400 mb-4" />,
             title: "Complete Privacy",
             description: "Share freely without revealing your identity. All conversations are private."
           }
         ].map((feature, index) => (
           <div 
             key={index} 
-            className="bg-white rounded-xl p-6 shadow-sm border border-border reveal card-hover"
+            className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-border dark:border-gray-700 reveal card-hover"
           >
             {feature.icon}
-            <h3 className="text-xl font-medium mb-2">{feature.title}</h3>
-            <p className="text-muted-foreground">{feature.description}</p>
+            <h3 className="text-xl font-medium mb-2 dark:text-gray-100 font-playfair">{feature.title}</h3>
+            <p className="text-muted-foreground dark:text-gray-300">{feature.description}</p>
           </div>
         ))}
       </div>

@@ -35,13 +35,13 @@ const StoryCard: React.FC<StoryCardProps> = ({
   // Get emotion color and emoji
   const getEmotionColorAndEmoji = (emotion: string) => {
     const colors: Record<string, { class: string; emoji: string }> = {
-      joy: { class: "bg-green-100 text-green-800", emoji: "😊" },
-      grief: { class: "bg-indigo-100 text-indigo-800", emoji: "😢" },
-      anxiety: { class: "bg-amber-100 text-amber-800", emoji: "😰" },
-      hope: { class: "bg-support-100 text-support-800", emoji: "🌟" },
-      gratitude: { class: "bg-purple-100 text-purple-800", emoji: "🙏" },
+      joy: { class: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300", emoji: "😊" },
+      grief: { class: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300", emoji: "😢" },
+      anxiety: { class: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300", emoji: "😰" },
+      hope: { class: "bg-support-100 text-support-800 dark:bg-support-900/30 dark:text-support-300", emoji: "🌟" },
+      gratitude: { class: "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300", emoji: "🙏" },
     };
-    return colors[emotion] || { class: "bg-gray-100 text-gray-800", emoji: "💭" };
+    return colors[emotion] || { class: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300", emoji: "💭" };
   };
 
   const { class: emotionClass, emoji } = getEmotionColorAndEmoji(emotion);
@@ -55,10 +55,10 @@ const StoryCard: React.FC<StoryCardProps> = ({
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-support-100 dark:border-gray-700 p-6 transition-all duration-300 hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/30">
       <div className="flex justify-between items-start mb-3">
         <div>
-          <h3 className="font-medium text-lg dark:text-white">{title}</h3>
+          <h3 className="font-medium text-lg dark:text-gray-100">{title}</h3>
         </div>
         <span
-          className={`px-2 py-1 rounded-full text-xs font-medium ${emotionClass} dark:bg-opacity-20`}
+          className={`px-2 py-1 rounded-full text-xs font-medium ${emotionClass}`}
         >
           {emoji} {emotion}
         </span>
