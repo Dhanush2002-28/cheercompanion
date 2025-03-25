@@ -19,6 +19,10 @@ export default {
 			}
 		},
 		extend: {
+            fontFamily: {
+                'sans': ['Inter', 'sans-serif'],
+                'playfair': ['Playfair Display', 'serif']
+            },
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -123,6 +127,12 @@ export default {
 					'0%': { filter: 'blur(8px)', opacity: '0' },
 					'100%': { filter: 'blur(0)', opacity: '1' },
 				},
+				'blob': {
+					'0%': { transform: 'translate(0px, 0px) scale(1)' },
+					'33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+					'66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+					'100%': { transform: 'translate(0px, 0px) scale(1)' },
+				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -135,6 +145,7 @@ export default {
 				'float': 'float 6s infinite ease-in-out',
 				'scale': 'scale 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
 				'blur-in': 'blur-in 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+				'blob': 'blob 7s infinite',
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
