@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { sampleStories } from "../services/api";
 import StoryCard from "./StoryCard";
@@ -39,14 +40,17 @@ const StoriesSection = () => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const emotionSelect = form.emotion as HTMLSelectElement;
+    
+    // Create a new story object
     const newStory = {
       id: stories.length + 1,
-      title: form.title.value,
-      content: form.content.value,
+      title: (form.title as HTMLInputElement).value,
+      content: (form.content as HTMLTextAreaElement).value,
       author: "Anonymous",
       emotion: emotionSelect.value,
       likes: 0,
     };
+    
     setStories([...stories, newStory]);
     form.reset();
   };
@@ -55,16 +59,16 @@ const StoriesSection = () => {
     <section id="stories" className="py-12 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-8 reveal">
-          <h2 className="text-3xl font-semibold text-foreground dark:text-white">
-            Community Stories
+          <h2 className="text-3xl font-semibold text-foreground dark:text-white font-playfair">
+            Community Stories 📚
           </h2>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline">Share Your Story</Button>
+              <Button variant="outline">Share Your Story ✏️</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>Share Your Story</DialogTitle>
+                <DialogTitle className="font-playfair">Share Your Story ✨</DialogTitle>
                 <DialogDescription>
                   Share your emotional experiences and connect with others.
                 </DialogDescription>
@@ -108,7 +112,7 @@ const StoriesSection = () => {
                       defaultValue="joy"
                       required
                     >
-                      {emotions.map((emotion) => (
+                      {emotions.filter(e => e.value !== "all").map((emotion) => (
                         <option key={emotion.value} value={emotion.value}>
                           {emotion.label}
                         </option>
@@ -116,7 +120,7 @@ const StoriesSection = () => {
                     </select>
                   </div>
                 </div>
-                <Button type="submit">Submit Story</Button>
+                <Button type="submit">Submit Story 📝</Button>
               </form>
             </DialogContent>
           </Dialog>
@@ -139,13 +143,13 @@ const StoriesSection = () => {
               onClick={sortStoriesByLikes}
               className="px-4 py-2 bg-white dark:bg-gray-700 text-foreground dark:text-white rounded-md shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-support-500 transition-colors"
             >
-              Sort by Likes
+              Sort by Likes ❤️
             </button>
             <button
               onClick={sortStoriesByRecent}
               className="px-4 py-2 bg-white dark:bg-gray-700 text-foreground dark:text-white rounded-md shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-support-500 transition-colors"
             >
-              Sort by Recent
+              Sort by Recent 🕒
             </button>
           </div>
         </div>
