@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
+import CustomHeader from '../components/CustomHeader';
 import Hero from '../components/Hero';
 import ChatInterface from '../components/ChatInterface';
 import StoriesSection from '../components/StoriesSection';
@@ -60,7 +60,7 @@ const Index = () => {
     <ChatProvider>
       <div className="min-h-screen flex flex-col">
         <BackgroundAnimation />
-        <Header />
+        <CustomHeader />
         <main className="flex-1">
           <Hero />
           <ChatInterface />

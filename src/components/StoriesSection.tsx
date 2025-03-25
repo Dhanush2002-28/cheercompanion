@@ -1,34 +1,38 @@
-
 import React, { useState } from "react";
 import { sampleStories } from "../services/api";
 import StoryCard from "./StoryCard";
-import Modal from "./Modal";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
-const emotions = [
-  { label: "All", value: "all" },
-  { label: "Joy", value: "joy" },
-  { label: "Grief", value: "grief" },
-  { label: "Anxiety", value: "anxiety" },
-  { label: "Hope", value: "hope" },
-  { label: "Gratitude", value: "gratitude" },
-];
-
-const StoriesSection: React.FC = () => {
-  const [selectedEmotion, setSelectedEmotion] = useState("all");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const StoriesSection = () => {
   const [stories, setStories] = useState(sampleStories);
+  const [selectedEmotion, setSelectedEmotion] = useState("all");
 
-  const filteredStories =
-    selectedEmotion === "all"
-      ? stories
-      : stories.filter((story) => story.emotion === selectedEmotion);
+  const emotions = [
+    { value: "all", label: "All Emotions ✨" },
+    { value: "joy", label: "Joy 😊" },
+    { value: "grief", label: "Grief 😢" },
+    { value: "anxiety", label: "Anxiety 😰" },
+    { value: "hope", label: "Hope 🌟" },
+    { value: "gratitude", label: "Gratitude 🙏" },
+  ];
 
-  const handleShareExperienceClick = () => {
-    setIsModalOpen(true);
+  const filteredStories = selectedEmotion === "all"
+    ? stories
+    : stories.filter(story => story.emotion === selectedEmotion);
+
+  const handleEmotionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedEmotion(event.target.value);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const sortStoriesByLikes = () => {
+    const sorted = [...stories].sort((a, b) => b.likes - a.likes);
+    setStories(sorted);
+  };
+
+  const sortStoriesByRecent = () => {
+    const sorted = [...stories].sort((a, b) => b.id - a.id);
+    setStories(sorted);
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -44,114 +48,114 @@ const StoriesSection: React.FC = () => {
       likes: 0,
     };
     setStories([...stories, newStory]);
-    setIsModalOpen(false);
+    form.reset();
   };
 
   return (
-    <section id="stories" className="py-24 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-light mb-4">
+    <section id="stories" className="py-12 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center mb-8 reveal">
+          <h2 className="text-3xl font-semibold text-foreground dark:text-white">
             Community Stories
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Anonymous experiences from others who've walked similar paths. Find
-            connection and perspective in shared human experiences.
-          </p>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline">Share Your Story</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Share Your Story</DialogTitle>
+                <DialogDescription>
+                  Share your emotional experiences and connect with others.
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleFormSubmit} className="modal-form">
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <label htmlFor="title" className="text-right">
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      placeholder="My Story Title"
+                      className="col-span-3"
+                      required
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <label htmlFor="content" className="text-right">
+                      Content
+                    </label>
+                    <textarea
+                      id="content"
+                      name="content"
+                      placeholder="Write your story here..."
+                      className="col-span-3"
+                      rows={4}
+                      required
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <label htmlFor="emotion" className="text-right">
+                      Emotion
+                    </label>
+                    <select
+                      id="emotion"
+                      name="emotion"
+                      className="col-span-3"
+                      defaultValue="joy"
+                      required
+                    >
+                      {emotions.map((emotion) => (
+                        <option key={emotion.value} value={emotion.value}>
+                          {emotion.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <Button type="submit">Submit Story</Button>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
 
-        <div className="flex overflow-x-auto gap-2 mb-8 pb-2 px-2 -mx-2">
-          {emotions.map((emotion) => (
-            <button
-              key={emotion.value}
-              onClick={() => setSelectedEmotion(emotion.value)}
-              className={`px-4 py-2 rounded-full whitespace-nowrap transition-colors ${
-                selectedEmotion === emotion.value
-                  ? "bg-support-600 text-white"
-                  : "bg-white border border-support-200 hover:bg-support-50"
-              }`}
-            >
-              {emotion.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredStories.map((story) => (
-            <StoryCard
-              key={story.id}
-              id={story.id}
-              title={story.title}
-              content={story.content}
-              author={story.author}
-              emotion={story.emotion}
-              likes={story.likes}
-            />
-          ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <p className="text-sm text-muted-foreground mb-4">
-            Would you like to anonymously share your story?
-          </p>
-          <button
-            onClick={handleShareExperienceClick}
-            className="px-5 py-2 rounded-lg bg-white border border-support-200 hover:bg-support-50 transition-colors shadow-sm"
-          >
-            Share Your Experience
-          </button>
-        </div>
-      </div>
-
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <h2 className="text-xl mb-4">Share Your Experience</h2>
-        <form onSubmit={handleFormSubmit} className="modal-form">
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Title
-            </label>
-            <input
-              type="text"
-              name="title"
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Content
-            </label>
-            <textarea
-              name="content"
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              rows={4}
-              required
-            ></textarea>
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Emotion
-            </label>
+        <div className="flex justify-between items-center mb-4 reveal">
+          <div className="flex items-center space-x-4">
             <select
-              name="emotion"
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              required
+              value={selectedEmotion}
+              onChange={handleEmotionChange}
+              className="bg-white dark:bg-gray-700 text-foreground dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-support-500"
             >
-              {emotions.filter(e => e.value !== 'all').map((emotion) => (
+              {emotions.map((emotion) => (
                 <option key={emotion.value} value={emotion.value}>
                   {emotion.label}
                 </option>
               ))}
             </select>
+            <button
+              onClick={sortStoriesByLikes}
+              className="px-4 py-2 bg-white dark:bg-gray-700 text-foreground dark:text-white rounded-md shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-support-500 transition-colors"
+            >
+              Sort by Likes
+            </button>
+            <button
+              onClick={sortStoriesByRecent}
+              className="px-4 py-2 bg-white dark:bg-gray-700 text-foreground dark:text-white rounded-md shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-support-500 transition-colors"
+            >
+              Sort by Recent
+            </button>
           </div>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-support-600 text-white rounded-md hover:bg-support-700"
-          >
-            Submit
-          </button>
-        </form>
-      </Modal>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
+          {filteredStories.map((story) => (
+            <StoryCard key={story.id} {...story} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
