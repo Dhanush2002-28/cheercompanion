@@ -103,7 +103,7 @@
   }
 
   ::selection {
-    @apply bg-support-100 text-support-800;
+    @apply bg-support-100 text-support-800 dark:bg-support-800 dark:text-support-100;
   }
 }
 
@@ -113,7 +113,7 @@
   }
 
   .glass-effect {
-    @apply bg-white/30 backdrop-blur-lg border border-white/30 shadow-glass;
+    @apply bg-white/30 backdrop-blur-lg border border-white/30 shadow-glass dark:bg-black/20 dark:border-white/10;
   }
 
   .card-hover {
@@ -126,6 +126,18 @@
 
   .reveal-visible {
     @apply opacity-100 translate-y-0;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  .animation-delay-6000 {
+    animation-delay: 6s;
   }
 
   .modal-backdrop {

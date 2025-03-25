@@ -5,6 +5,7 @@ import Hero from '../components/Hero';
 import ChatInterface from '../components/ChatInterface';
 import StoriesSection from '../components/StoriesSection';
 import Footer from '../components/Footer';
+import BackgroundAnimation from '../components/BackgroundAnimation';
 import { ChatProvider } from '../context/ChatContext';
 
 const Index = () => {
@@ -58,6 +59,7 @@ const Index = () => {
   return (
     <ChatProvider>
       <div className="min-h-screen flex flex-col">
+        <BackgroundAnimation />
         <Header />
         <main className="flex-1">
           <Hero />
