@@ -6,6 +6,7 @@ interface StoryCardProps {
   id: number;
   title: string;
   content: string;
+  author: string;
   emotion: string;
   likes: number;
 }
@@ -15,6 +16,7 @@ const StoryCard: React.FC<StoryCardProps> = ({
   title,
   content,
   emotion,
+  author,
   likes,
 }) => {
   const [isLiked, setIsLiked] = useState(false);

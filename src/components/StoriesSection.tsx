@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { sampleStories } from "../services/api";
 import StoryCard from "./StoryCard";
@@ -33,12 +34,13 @@ const StoriesSection: React.FC = () => {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
+    const emotionSelect = form.emotion as HTMLSelectElement;
     const newStory = {
       id: stories.length + 1,
       title: form.title.value,
       content: form.content.value,
       author: "Anonymous",
-      emotion: form.emotion.value,
+      emotion: emotionSelect.value,
       likes: 0,
     };
     setStories([...stories, newStory]);
@@ -135,7 +137,7 @@ const StoriesSection: React.FC = () => {
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
             >
-              {emotions.map((emotion) => (
+              {emotions.filter(e => e.value !== 'all').map((emotion) => (
                 <option key={emotion.value} value={emotion.value}>
                   {emotion.label}
                 </option>
