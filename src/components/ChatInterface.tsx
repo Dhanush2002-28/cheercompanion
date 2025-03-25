@@ -127,7 +127,7 @@ const ChatInterface: React.FC = () => {
           <div className="flex items-center justify-between p-4 border-b border-border">
             <div className="flex items-center">
               <div className="w-3 h-3 rounded-full bg-support-500 mr-2 animate-pulse"></div>
-              <span className="font-medium">EmotionalSupport AI</span>
+              <span className="font-medium text-muted-foreground">EmotionalSupport AI</span>
             </div>
             <button
               onClick={() => setMessages([])}
@@ -222,7 +222,7 @@ const ChatInterface: React.FC = () => {
                 <div className="bg-white rounded-2xl px-4 py-3 border border-support-100 shadow-sm animate-pulse-subtle max-w-[80%]">
                   <div className="flex items-center space-x-2">
                     <Loader className="h-4 w-4 animate-spin text-support-500" />
-                    <span className="text-sm">Thinking...</span>
+                    <span className="text-sm text-muted-foreground">Thinking...</span>
                   </div>
                 </div>
               </div>
@@ -248,7 +248,7 @@ const ChatInterface: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your message here..."
-                className="flex-1 px-4 py-3 focus:outline-none bg-transparent text-foreground"
+                className="flex-1 px-4 py-3 focus:outline-none bg-transparent text-muted-foreground"
                 disabled={isLoading}
               />
               <button
